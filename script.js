@@ -3,7 +3,7 @@ const products = [
     {
         id: 1,
         name: "Custom Mug",
-        images: ["mug1.jpg", "mug2.jpg", "mug3.jpg"],
+        images: ["https://picsum.photos/200/300?random=1", "https://picsum.photos/200/300?random=2", "https://picsum.photos/200/300?random=3"],
         description: "A personalized mug for your favorite beverages.",
         whatsappLink: "https://wa.me/1234567890?text=I%20am%20interested%20in%20Custom%20Mug"
     },
