@@ -171,3 +171,56 @@ footer a:hover {
         max-width: 90%;
     }
 }
+
+
+/* Carousel Styles */
+.carousel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    margin: auto;
+}
+
+.carousel #main-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.carousel .thumbnails {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.carousel .thumbnails img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.3s ease, border 0.3s ease;
+}
+
+.carousel .thumbnails img.active,
+.carousel .thumbnails img:hover {
+    transform: scale(1.1);
+    border: 2px solid #4a90e2;
+}
+
+/* Responsive Carousel */
+@media (max-width: 768px) {
+    .carousel #main-image {
+        max-width: 90%;
+    }
+
+    .carousel .thumbnails img {
+        width: 60px;
+        height: 60px;
+    }
+}
