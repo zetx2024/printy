@@ -44,38 +44,59 @@ if (document.querySelector(".product-list")) {
 }
 
 
-// Populate Product Details on Product Page
+// Populate Product Details and Slider on Product Page
 if (window.location.pathname.endsWith("product.html")) {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get("id");
     const product = products.find(p => p.id == productId);
 
     if (product) {
+        // Set Product Details
         document.getElementById("product-name").textContent = product.name;
         document.getElementById("product-description").textContent = product.description;
         document.getElementById("order-link").href = product.whatsappLink;
 
-        const mainImage = document.getElementById("main-image");
-        const thumbnails = document.querySelector(".thumbnails");
-
-        // Set the main image to the first image
-        mainImage.src = product.images[0];
-
-        // Populate thumbnails
-        product.images.forEach((img, index) => {
-            const thumb = document.createElement("img");
-            thumb.src = img;
-            thumb.alt = `${product.name} Thumbnail`;
-            thumb.classList.add(index === 0 ? "active" : "");
-            thumb.addEventListener("click", () => {
-                // Update main image and active thumbnail
-                mainImage.src = img;
-                document.querySelectorAll(".thumbnails img").forEach(t => t.classList.remove("active"));
-                thumb.classList.add("active");
-            });
-            thumbnails.appendChild(thumb);
+        // Populate Slider
+        const sliderWrapper = document.querySelector(".slider-wrapper");
+        product.images.forEach(image => {
+            const imgElement = document.createElement("img");
+            imgElement.src = image;
+            imgElement.alt = `${product.name} Image`;
+            sliderWrapper.appendChild(imgElement);
         });
+
+        // Initialize Slider
+        initializeSlider();
     } else {
         document.getElementById("product-details").innerHTML = "<p>Product not found.</p>";
     }
+}
+
+// Slider Functionality
+function initializeSlider() {
+    const sliderWrapper = document.querySelector(".slider-wrapper");
+    const images = sliderWrapper.querySelectorAll("img");
+    let currentIndex = 0;
+
+    const prevBtn = document.querySelector(".slider-btn.prev");
+    const nextBtn = document.querySelector(".slider-btn.next");
+
+    // Show the first image
+    images[currentIndex].classList.add("active");
+
+    function updateSlider(index) {
+        images.forEach(img => img.classList.remove("active"));
+        images[index].classList.add("active");
+        sliderWrapper.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    prevBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        updateSlider(currentIndex);
+    });
+
+    nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateSlider(currentIndex);
+    });
 }
