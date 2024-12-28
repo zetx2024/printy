@@ -42,3 +42,40 @@ if (document.querySelector(".product-list")) {
         productList.appendChild(productDiv);
     });
 }
+
+
+// Populate Product Details on Product Page
+if (window.location.pathname.endsWith("product.html")) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get("id");
+    const product = products.find(p => p.id == productId);
+
+    if (product) {
+        document.getElementById("product-name").textContent = product.name;
+        document.getElementById("product-description").textContent = product.description;
+        document.getElementById("order-link").href = product.whatsappLink;
+
+        const mainImage = document.getElementById("main-image");
+        const thumbnails = document.querySelector(".thumbnails");
+
+        // Set the main image to the first image
+        mainImage.src = product.images[0];
+
+        // Populate thumbnails
+        product.images.forEach((img, index) => {
+            const thumb = document.createElement("img");
+            thumb.src = img;
+            thumb.alt = `${product.name} Thumbnail`;
+            thumb.classList.add(index === 0 ? "active" : "");
+            thumb.addEventListener("click", () => {
+                // Update main image and active thumbnail
+                mainImage.src = img;
+                document.querySelectorAll(".thumbnails img").forEach(t => t.classList.remove("active"));
+                thumb.classList.add("active");
+            });
+            thumbnails.appendChild(thumb);
+        });
+    } else {
+        document.getElementById("product-details").innerHTML = "<p>Product not found.</p>";
+    }
+}
